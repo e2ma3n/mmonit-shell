@@ -1,0 +1,48 @@
+Programming and idea by : E2MA3N [Iman Homayouni]
+Github : https://github.com/e2ma3n
+Email : e2ma3n@Gmail.com
+Website : http://OSLearn.ir
+License : GPL v3.0
+mmonit-shell v1.0 [ Monitoring 'monit service manager' on all servers ]
+
+Description :
+This program Written by E2MA3N to manage all your Monit instances.
+
+
+Dependencies :
+	1. watch
+	2. whoami
+	3. cat
+	4. cp
+	5. html2text
+	6. expr
+	7. curl
+
+
+Install mmonit-shell v1.0 :
+	1. chmod +x install.sh
+	2. sudo ./install.sh -i
+
+
+Check dependencies :
+	1. chmod +x install.sh
+	2. sudo ./install.sh -c
+
+
+Usage mmonit-shell v1.0 :
+	1. sudo mmonit-shell # for run program
+
+
+Uninstall mmonit-shell v1.0 :
+	1. rm -rf /opt/mmonit-shell_v1/
+	2. rm -f /usr/bin/mmonit-shell
+
+
+Notes :
+	1. You should run program as root
+	2. You should edit config file
+	4. This program now is compatible with monit service manager
+
+
+Tested mmonit-shell v1.0 in :
+	1. Debian 8.1.0 64bit netinst, 3.16.0-4-amd64
