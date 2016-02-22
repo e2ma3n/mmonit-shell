@@ -14,7 +14,7 @@ Dependencies :
 	2. whoami
 	3. cat
 	4. cp
-	5. html2text
+	5. links
 	6. expr
 	7. curl
 
@@ -45,4 +45,5 @@ Notes :
 
 
 Tested mmonit-shell v1.0 in :
-	1. Debian 8.1.0 64bit netinst, 3.16.0-4-amd64
+	1. Debian 8.1.0 netinst, 3.16.0-4-amd64
+	2. LMDE 2, 3.16.0-4-amd64
