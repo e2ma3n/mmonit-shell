@@ -11,7 +11,7 @@
 [ "`whoami`" != "root" ] && echo '[-] Please use root user or sudo' && exit 1
 
 # check config file
-[ ! -f /opt/mmonit-shell_v1/mmonit-shell.conf ] && echo '[-] Error: /opt/mmonit-shell_v1/mmonit-shell.sh not found'
+[ ! -f /opt/mmonit-shell_v1/mmonit-shell.conf ] && echo '[-] Error: /opt/mmonit-shell_v1/mmonit-shell.sh not found' && exit 1
 
 # delay time for refresh
 delay=`cat /opt/mmonit-shell_v1/mmonit-shell.conf | head -n 9 | tail -n 1 | cut -d = -f 2`
