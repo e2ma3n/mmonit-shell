@@ -16,9 +16,15 @@
 # delay time for refresh
 delay=`cat /opt/mmonit-shell_v1/mmonit-shell.conf | head -n 9 | tail -n 1 | cut -d = -f 2`
 
-for (( ;; )); do
+[ -f /tmp/error_1 ] && rm -f /tmp/error_1 &> /dev/null
+[ -f /tmp/error_2 ] && rm -f /tmp/error_2 &> /dev/null
+
+for (( j=0 ;; j++ )); do
 	reset
-	echo -e "[+] Monitoring monit service manager on all servers\n"
+	echo '[+] --------------------------------------------------------- [-]'
+	echo -e "[+] Programming & idea by \e[1mE2MA3N [Iman Homayouni]\e[0m"
+	echo -e "[+] Monitoring monit service manager on all servers"
+	echo -e "[+] License : GPL v3.0\n"
 	n=`cat /opt/mmonit-shell_v1/mmonit-shell.conf | wc -l`
 	n=`expr $n - 11`
 	for (( i=1 ; i<= $n ; i++ )) ; do
@@ -38,19 +44,27 @@ for (( ;; )); do
 			for service in `echo "$monit" | grep -A $m Process | tail -n $m | cut -d " " -f 1` ; do
 				status=`echo "$monit" | grep "$service" | tr -s " " | cut -d " " -f 2`
 				if [ ! -z $status ] ; then
-					[ "$status" != "Running" ] && status=`echo -e "\e[101mNot running\e[0m"` && A=1
-					echo -en "[+] " ; echo -en "$service " ; echo -e "$status"	
+					[ "$status" != "Running" ] && status=`echo -e "\e[101mNot running\e[0m"`
+					echo -e "[+] $service $status"
+					echo -e "[+] $ip - $service $status" | perl -pe 's/\e([^\[\]]|\[.*?[a-zA-Z]|\].*?\a)//g' | col -b >> /tmp/error_1
 				fi
 			done
-			if [ -z $B ] ; then
-				[ "$A" = "1" ] && B="1" && zenity --timeout=1 --notification --text "Monit - Problem on $ip" &> /dev/null
-			fi
 		else
-			echo "[-] maybe server is down"
+			echo "[-] maybe $ip is down" | tee -a /tmp/error_1
 		fi
 		echo
-	unset A
 	done
+	if [ "$j" != "0" ] ; then
+		changes=`diff /tmp/error_2 /tmp/error_1 | grep '>' | cut -d " " -f 3,4,5,6,7,8`
+		if [ ! -z "$changes" ] ; then
+			for (( i=1 ; i <= `echo "$changes" | wc -l` ; i++ )) ; do
+				zenity --timeout=1 --notification --text "mmonit-shell : `echo "$changes" | head -n $i | tail -n 1`" &> /dev/null
+			done
+		fi
+	fi
+	cp /tmp/error_1 /tmp/error_2
+	rm -f /tmp/error_1 &> /dev/null
 	echo "[+] refresh page after $delay second"
+	echo '[+] --------------------------------------------------------- [-]'
 	sleep $delay
 done
